@@ -10,7 +10,7 @@ total_width = socket_width + 1.5 * border_width;
 min_height = socket_height + 1.5 * border_width;
 circle_diameter_x = total_width / (num_circles_x - 1);
 
-num_circles_y = ceil(min_height / circle_diameter_x);
+num_circles_y = ceil((min_height + (0.7 * circle_diameter_x)) / circle_diameter_x);
 total_height = circle_diameter_x * (num_circles_y - 1);
 circle_diameter_y = circle_diameter_x;
 
