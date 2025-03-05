@@ -1,0 +1,3 @@
+[submodule "Kuno's Gridfinity Handy Tools/libraries/gridfinity-rebuilt-openscad"]
+	path = Kuno's Gridfinity Handy Tools/libraries/gridfinity-rebuilt-openscad
+	url = https://github.com/kennetek/gridfinity-rebuilt-openscad.git
