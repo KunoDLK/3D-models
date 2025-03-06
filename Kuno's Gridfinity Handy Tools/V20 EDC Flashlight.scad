@@ -19,10 +19,10 @@ Light_Width = 35;
 Light_Depth = 15;
 
 /* [Funger Hole Settings] */
-Finger_Total_Depth = 25;
-Finger_Width = 20;
-Finger_Stright_Depth = 15;
-Finger_Thickness = 10;
+Finger_Total_Depth = 20;
+Finger_Width = 30;
+Finger_Stright_Depth = 9;
+Finger_Thickness = 11;
 
 difference() {
     union()
