@@ -1,12 +1,5 @@
 {
     "parameterSets": {
-        "design default values": {
-            "border_width": "10",
-            "num_circles_x": "6",
-            "socket_height": "86",
-            "socket_width": "146",
-            "thickness": "3"
-        },
         "UK Single Gang": {
             "border_width": "10",
             "num_circles_x": "6",
@@ -17,6 +10,13 @@
         "UK Double Gang": {
             "border_width": "10",
             "num_circles_x": "9",
+            "socket_height": "86",
+            "socket_width": "146",
+            "thickness": "3"
+        },
+        "design default values": {
+            "border_width": "10",
+            "num_circles_x": "6",
             "socket_height": "86",
             "socket_width": "146",
             "thickness": "3"
