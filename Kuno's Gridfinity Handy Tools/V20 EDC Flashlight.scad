@@ -14,15 +14,15 @@ gridy = 1;
 Grid_Size = 42; 
 
 /* [Light Settings] */
-Light_Length = 70;
-Light_Width = 35;
-Light_Depth = 15;
+Light_Length = 70.0;
+Light_Width = 37.0;
+Light_Depth = 17.5;
 
 /* [Funger Hole Settings] */
 Finger_Total_Depth = 20;
 Finger_Width = 30;
-Finger_Stright_Depth = 9;
-Finger_Thickness = 11;
+Finger_Stright_Depth = 10.5;
+Finger_Thickness = 9.5;
 
 difference() {
     union()
