@@ -1,23 +1,22 @@
 /* [Render Parameters] */
-$fs = $preview ? 2 : 0.1;
-$fa = $preview ? 5 : 0.1;
+$fs =  0.1;
+$fa =  0.1;
 
 /* [Light Settings] */
-Light_Diameter = 80;
+Light_Diameter = 64;
 
 /* [Base Settings] */
 Base_Depth = 10;
 Base_Wall_Thickness = 5;
-Base_Plate_Thickness = 3;
 
 /* [Bolt Holes Settings] */
-Bolt_Offset = 30;
-Hole_Diameter = 3;
-Width = 8.4;
-Thickness = 1.2;
-Bolt_Holder_Material_Thickness = 2;
-Nut_Clearance = 0.1;
-Bolt_Clearance = 0.25;
+Bolt_Offset = 25.5;
+Hole_Diameter = 4.8;
+Width = 6.9;
+Thickness = 2.0;
+Bolt_Holder_Material_Thickness = 4;
+Nut_Clearance = 0.2;
+Bolt_Clearance = 0;
 
 // Adjusting valves for Clearance
 Bolt_Width = Width + Nut_Clearance;
@@ -25,17 +24,15 @@ Bolt_Thickness = Thickness + Nut_Clearance;
 Bolt_Hole_Diameter = Hole_Diameter + Bolt_Clearance;
 
 /* [Hook Settings] */
-Hook_Reach = 20;
-Hook_Finger_Length = 40;
-Hook_Finger_Thickness = 40;
+Hook_Reach = 10;
 Hook_Finger_Width = 10;
-Hook_Finger_Seperation = 30;
+Hook_Finger_Seperation = 25;
 Hook_Thickness = 5; 
 
 /* [Nub Settings] */
 Nub_Depth = 5;
 Nub_Offset = 1;
-Nub_Width = 20;
+Nub_Width = 10;
 
 
 rotate([0,90,0])
@@ -140,7 +137,7 @@ module HookExternalFingerSubtraction()
 {
     translate([-Light_Diameter / 2,(Hook_Finger_Seperation / 2) + Hook_Finger_Width,Base_Depth])
     {
-        cube([Light_Diameter,Hook_Finger_Seperation / 2,Hook_Reach + Nub_Depth+ Hook_Thickness - Nub_Offset]);
+        cube([Light_Diameter,(Light_Diameter / 2)-(Hook_Finger_Seperation / 2) + Hook_Finger_Width,Hook_Reach + Nub_Depth+ Hook_Thickness - Nub_Offset]);
     }
 }
 
