@@ -1,6 +1,6 @@
 /* [Render Parameters] */
-$fa = 10;
-$fs = 0.25;
+$fs = $preview ? 2 : 0.1;
+$fa = $preview ? 5 : 0.1;
 
 /* [Light Settings] */
 Light_Diameter = 80;
@@ -38,11 +38,12 @@ Nub_Offset = 1;
 Nub_Width = 20;
 
 
-
+rotate([0,90,0])
 difference()
 {
     union()
     {
+        Hooks();
         HookStrcuture();
         LightMounting();
         NutSupport();
@@ -57,8 +58,6 @@ difference()
     rotate([0,0,180])
     SquareNutHole();
 }
-
-//Hooks();
 
 
 module HookStrcuture()
@@ -77,26 +76,29 @@ module HookStrcuture()
 
 module Hooks()
 {
-    translate([0,0,Base_Depth +  Hook_Reach - Nub_Offset])
-    {
-        difference()
-        {    
-            linear_extrude(Hook_Thickness)
-            {
-                circle(r = Light_Diameter / 2);
-            }        
-            linear_extrude(Hook_Reach)
-            {
-                circle(r = (Light_Diameter / 2) - Base_Wall_Thickness);
-            }
-            translate([Nub_Width / 2,-Light_Diameter / 2,0])
-            {
-                cube([(Light_Diameter / 2) - (Nub_Width / 2), Light_Diameter , Hook_Reach + Nub_Depth+ Hook_Thickness]);
-            }
+    difference()
+    {    
+        translate([0,0,Base_Depth + Nub_Depth + Hook_Reach - Nub_Offset])
+        linear_extrude(Hook_Thickness)
+        {
+            circle(r = Light_Diameter / 2);
+        }        
             
+        HookExternalFingerSubtraction();
+        HookInternalFingerSubtraction();
+        rotate([0,0,180])
+        {
             HookExternalFingerSubtraction();
+            HookInternalFingerSubtraction();
         }
+        
+        translate([0,0,Base_Depth])
+        EndOfHookFingersSubtraction();
     }
+    
+    HookNubs();
+    rotate([0,0,180])
+        HookNubs();
 }
 
 module HookArcSeperator()
@@ -113,19 +115,24 @@ module HookArcSeperator()
             {
                 circle(r = (Light_Diameter / 2) - Base_Wall_Thickness);
             }
-            translate([Nub_Width / 2,-Light_Diameter / 2,0])
-            {
-                cube([(Light_Diameter / 2) - (Nub_Width / 2), Light_Diameter , Hook_Reach + Nub_Depth+ Hook_Thickness]);
-            }
+            EndOfHookFingersSubtraction();
         }
     }
 }
 
+module EndOfHookFingersSubtraction()
+{
+    translate([Nub_Width / 2,-Light_Diameter / 2,0])
+            {
+                cube([(Light_Diameter / 2) - (Nub_Width / 2), Light_Diameter , Hook_Reach + Nub_Depth+ Hook_Thickness]);
+            }
+}
+
 module HookInternalFingerSubtraction()
 {
-    translate([-Light_Diameter / 2,0,0])
+    translate([-Light_Diameter / 2,0,Base_Depth])
     {
-        cube([Light_Diameter,Hook_Finger_Seperation / 2,Hook_Reach + Nub_Depth+ Hook_Thickness]);
+        cube([Light_Diameter,Hook_Finger_Seperation / 2,Hook_Reach + Nub_Depth+ Hook_Thickness - Nub_Offset]);
     }
 }
 
@@ -137,6 +144,21 @@ module HookExternalFingerSubtraction()
     }
 }
 
+module HookNubs()
+{
+    translate([-Nub_Width / 2,Hook_Finger_Seperation / 2,Hook_Reach + Base_Depth - Nub_Offset])
+    {
+        intersection()
+        {
+            cube([Nub_Width,Hook_Finger_Width, Nub_Depth]);
+            translate([Nub_Width / 2, 0, Nub_Depth])
+            rotate([-90,0,0])
+            linear_extrude(Hook_Finger_Width)
+            resize([Nub_Width, Nub_Depth * 2])
+            circle(d=Nub_Depth * 2);
+        }
+    }
+}
 
 
 module LightMounting()
