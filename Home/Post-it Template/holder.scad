@@ -2,8 +2,8 @@
 
 /* [Render Parameters] */
 Item = "Holder"; // ["Holder", "ToDoTemplate"]
-$fs = 1;
-$fa = 5;
+$fs = 0.2;
+$fa = 0.1;
 
 /* [Fitment] */
 Global_Clearance = 0.2;
@@ -11,21 +11,21 @@ Global_Clearance = 0.2;
 /* [Post-It] */
 PostIt_Length = 76.2;
 PostIt_Width = 76.2;
-PostIt_Height = 10.0;
+PostIt_Height = 15.0;
 
 /* [Holder] */
 Base_Thickness = 1.0;
-Base_Padding = 2.0;
+Base_Padding = 2.5;
 Wall_Thickness = 1.0;
 Finger_Hole_Ratio = 0.5;
-Finger_Hole_Radius = 4.0;
+Finger_Hole_Radius = 5.0;
 
 /* [Templates] */
 Number_Of_Holders = 3;
-Holder_thickness = 1.0;
+Holder_thickness = 2.0;
 
 Total_Perimeter = Base_Padding + Wall_Thickness + Global_Clearance;
-Holder_Length = Number_Of_Holders > 0 ? (Number_Of_Holders * (Holder_thickness + (2 * Global_Clearance) + Wall_Thickness)) : 0; 
+Holder_Length = Number_Of_Holders > 0 ? Number_Of_Holders * (Wall_Thickness + Holder_thickness + (2 * Global_Clearance)) : 0; 
 Total_Width = ((Total_Perimeter) * 2) + PostIt_Width;
 Total_Length = ((Total_Perimeter) * 2) + PostIt_Length + Holder_Length;
 
@@ -77,10 +77,11 @@ module PostItHolder()
     {
         difference()
         {
+            color("red")
             cube([(noteOffset * 2) + PostIt_Width, (noteOffset * 2) + PostIt_Length, PostIt_Height]);
             
             translate([Wall_Thickness, Wall_Thickness, 0])
-            cube([PostIt_Width + (2 * Global_Clearance), PostIt_Length + (2 * Global_Clearance), PostIt_Height]);
+            cube([PostIt_Width + (2 * Global_Clearance), PostIt_Length + (2 * Global_Clearance), PostIt_Height + 1]);
             
             FingerHole();
         }
@@ -124,5 +125,19 @@ module FingerHole()
 
 module TemplateHolders()
 {
-   
+   holderYDistance = Wall_Thickness + (2 * Global_Clearance) + Holder_thickness;   
+   translate([Base_Padding, Base_Padding + PostIt_Length + (2 * (Wall_Thickness + Global_Clearance)), Base_Thickness])
+    {
+        difference()
+        {
+            color("blue")
+            cube([((Wall_Thickness + Global_Clearance) * 2) + PostIt_Width, Holder_Length, PostIt_Height]);
+            
+            for (i = [0:Number_Of_Holders - 1]) 
+            {
+                translate([Wall_Thickness, i * holderYDistance, 0])
+                cube([PostIt_Width + (2 * Global_Clearance), Holder_thickness + (2 * Global_Clearance), PostIt_Height + 1]);
+            }
+        }
+    }
 }
