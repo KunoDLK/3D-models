@@ -1,6 +1,7 @@
 // All values in mm unless a quanity or states otherwise
 
 /* [Render Parameters] */
+Item = "Holder"; // ["Holder", "ToDoTemplate"]
 $fs = 1;
 $fa = 5;
 
@@ -16,32 +17,51 @@ PostIt_Height = 10.0;
 Base_Thickness = 1.0;
 Base_Padding = 2.0;
 Wall_Thickness = 1.0;
-Finger_Hole_Ratio = 0.3;
+Finger_Hole_Ratio = 0.5;
 Finger_Hole_Radius = 4.0;
 
-/* [Template Holder] */
+/* [Templates] */
 Number_Of_Holders = 3;
 Holder_thickness = 1.0;
 
 Total_Perimeter = Base_Padding + Wall_Thickness + Global_Clearance;
-echo(Total_Perimeter);
 Holder_Length = Number_Of_Holders > 0 ? (Number_Of_Holders * (Holder_thickness + (2 * Global_Clearance) + Wall_Thickness)) : 0; 
-echo(Holder_Length);
 Total_Width = ((Total_Perimeter) * 2) + PostIt_Width;
-echo(Total_Width);
 Total_Length = ((Total_Perimeter) * 2) + PostIt_Length + Holder_Length;
-echo(Total_Length);
 
 
 // Model
-
-Base();
-PostItHolder();
-if (Number_Of_Holders > 0)
+if (Item == "Holder")
 {
-    TemplateHolders();
+    PostITHolder();
+}
+else
+{
+    Template(Item);
 }
 
+module Template(Item)
+{
+     difference()
+    {
+        TemplateBase();
+    }
+}
+
+module TemplateBase()
+{
+    cube([PostIt_Width, PostIt_Length, Holder_thickness]);
+}
+
+module PostITHolder()
+{
+    Base();
+    PostItHolder();
+    if (Number_Of_Holders > 0)
+    {
+        TemplateHolders();
+    }
+}
 
 // Design Modules
 module Base()
@@ -59,10 +79,10 @@ module PostItHolder()
         {
             cube([(noteOffset * 2) + PostIt_Width, (noteOffset * 2) + PostIt_Length, PostIt_Height]);
             
-            translate([noteOffset, noteOffset, 0])
-            cube([PostIt_Width, PostIt_Length, PostIt_Height]);
+            translate([Wall_Thickness, Wall_Thickness, 0])
+            cube([PostIt_Width + (2 * Global_Clearance), PostIt_Length + (2 * Global_Clearance), PostIt_Height]);
             
-            #FingerHole();
+            FingerHole();
         }
     }
 }
@@ -71,7 +91,7 @@ module FingerHole()
 {
     holeWidth = PostIt_Width * Finger_Hole_Ratio;
     
-    translate([holeWidth,Wall_Thickness,0])
+    translate([(PostIt_Width / 2) - (holeWidth / 2),Wall_Thickness,0])
     rotate([90,0,0])
     linear_extrude(Wall_Thickness)
     {
@@ -104,5 +124,5 @@ module FingerHole()
 
 module TemplateHolders()
 {
-    
+   
 }
