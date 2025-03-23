@@ -1,16 +1,77 @@
+// All values in mm unless a quanity or states otherwise
+
 /* [Render Parameters] */
 $fs = 1;
 $fa = 5;
 
-/* [Post-It Parameters] */
+/* [Fitment] */
+Global_Clearance = 0.2;
+
+/* [Post-It] */
 PostIt_Length = 76.2;
 PostIt_Width = 76.2;
 PostIt_Height = 10.0;
 
-/* [Holder Parameters] */
-Base_Thickness = 1;
-Finger_Hole_Ratio = 1/3;
-Global_Clearance = 0.2;
+/* [Holder] */
+Base_Thickness = 1.0;
+Base_Padding = 2.0;
+Wall_Thickness = 1.0;
+Finger_Hole_Ratio = 0.3;
+Finger_Hole_Radius = 4.0;
 
-/* [Template Holder Parameters] */
+/* [Template Holder] */
 Number_Of_Holders = 3;
+Holder_thickness = 1.0;
+
+Total_Perimeter = Base_Padding + Wall_Thickness + Global_Clearance;
+echo(Total_Perimeter);
+Holder_Length = Number_Of_Holders > 0 ? (Number_Of_Holders * (Holder_thickness + (2 * Global_Clearance) + Wall_Thickness)) : 0; 
+echo(Holder_Length);
+Total_Width = ((Total_Perimeter) * 2) + PostIt_Width;
+echo(Total_Width);
+Total_Length = ((Total_Perimeter) * 2) + PostIt_Length + Holder_Length;
+echo(Total_Length);
+
+
+// Model
+
+Base();
+PostItHolder();
+if (Number_Of_Holders > 0)
+{
+    TemplateHolders();
+}
+
+
+
+// Design Modules
+module Base()
+{
+    cube([Total_Width, Total_Length, Base_Thickness]);
+}
+
+module PostItHolder()
+{
+    noteOffset = Wall_Thickness + Global_Clearance;
+    
+    translate([Base_Padding, Base_Padding, Base_Thickness])
+    {
+        difference()
+        {
+            cube([(noteOffset * 2) + PostIt_Width, (noteOffset * 2) + PostIt_Length, PostIt_Height]);
+            
+            translate([noteOffset, noteOffset, 0])
+            cube([PostIt_Width, PostIt_Length, PostIt_Height]);
+        }
+    }
+}
+
+module FingerHole()
+{
+    
+}
+
+module TemplateHolders()
+{
+    
+}
