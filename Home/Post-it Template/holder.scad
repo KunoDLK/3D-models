@@ -43,7 +43,6 @@ if (Number_Of_Holders > 0)
 }
 
 
-
 // Design Modules
 module Base()
 {
@@ -62,13 +61,45 @@ module PostItHolder()
             
             translate([noteOffset, noteOffset, 0])
             cube([PostIt_Width, PostIt_Length, PostIt_Height]);
+            
+            #FingerHole();
         }
     }
 }
 
 module FingerHole()
 {
+    holeWidth = PostIt_Width * Finger_Hole_Ratio;
     
+    translate([holeWidth,Wall_Thickness,0])
+    rotate([90,0,0])
+    linear_extrude(Wall_Thickness)
+    {
+        union()
+        {
+            //top rectangle
+            translate([0,Finger_Hole_Radius])
+            square([holeWidth, PostIt_Height - Finger_Hole_Radius]);
+            
+            translate([Finger_Hole_Radius,0])
+            square([holeWidth - (2 * Finger_Hole_Radius), Finger_Hole_Radius]);
+            
+            //bottom rectangle with radius
+            intersection()
+            {
+                square([holeWidth, Finger_Hole_Radius]);
+                translate([Finger_Hole_Radius,Finger_Hole_Radius])
+                circle(r = Finger_Hole_Radius);
+            }
+            
+            intersection()
+            {
+                square([holeWidth, Finger_Hole_Radius]);
+                translate([holeWidth - Finger_Hole_Radius,Finger_Hole_Radius])
+                circle(r = Finger_Hole_Radius);    
+            }
+        }
+    }
 }
 
 module TemplateHolders()
