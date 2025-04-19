@@ -1,7 +1,7 @@
 // All values in mm unless a quanity or states otherwise
 
 /* [Render Parameters] */
-Item = "Holder"; // ["Holder", "ToDoTemplate"]
+Item = "ToDoTemplate"; // ["Holder", "ToDoTemplate"]
 $fs = 0.2;
 $fa = 0.1;
 
@@ -9,8 +9,8 @@ $fa = 0.1;
 Global_Clearance = 0.2;
 
 /* [Post-It] */
-PostIt_Length = 76.2;
-PostIt_Width = 76.2;
+PostIt_Length = 77;
+PostIt_Width = 77;
 PostIt_Height = 15.0;
 
 /* [Holder] */
@@ -33,12 +33,18 @@ Total_Length = ((Total_Perimeter) * 2) + PostIt_Length + Holder_Length;
 // Model
 if (Item == "Holder")
 {
-    PostITHolder();
+    render()
+    {
+        // Need to render to stop z fightingimport("/Users/Kuno/Documents/GitHub/3D models/Home/Post-it Template/holder_test.stl");
+
+        PostITHolder();
+    }
 }
 else
 {
     Template(Item);
 }
+
 
 module Template(Item)
 {
